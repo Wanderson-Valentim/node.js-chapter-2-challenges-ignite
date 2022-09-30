@@ -1,0 +1,276 @@
+{
+  "openapi": "3.0.0",
+
+  "info": {
+    "title": "Sample API USERS",
+    "description": "User listing and registration API",
+    "version": "1.0.0"
+  },
+
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example":{
+                  "name": "user name sample",
+                  "email": "user_email@sample.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin":{
+                      "type": "boolean"
+                    },
+                    "created_at":{
+                      "type": "string"
+                    },
+                    "updated_at":{
+                      "type": "string"
+                    }
+                  },
+                  "example":{
+                      "id": "554d6f35-2ebe-49f0-ac68-86f6b998565c",
+                      "name": "User",
+                      "email": "user@email.com",
+                      "admin": false,
+                      "created_at": "2022-09-30T15:32:53.931Z",
+                      "updated_at": "2022-09-30T15:32:53.931Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User already exists"
+          }
+        }
+      },
+
+      "get": {
+        "tags": ["User"],
+        "summary": "List all users",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "User id to be passed as a header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"array",
+                  "items":{
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin":{
+                        "type": "boolean"
+                      },
+                      "created_at":{
+                        "type": "string"
+                      },
+                      "updated_at":{
+                        "type": "string"
+                      }
+                    },
+                    "example":{
+                        "id": "554d6f35-2ebe-49f0-ac68-86f6b998565c",
+                        "name": "User",
+                        "email": "user@email.com",
+                        "admin": false,
+                        "created_at": "2022-09-30T15:32:53.931Z",
+                        "updated_at": "2022-09-30T15:32:53.931Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User does not exist or user is not admin"
+          },
+          "500": {
+            "description": "User id not found"
+          }
+        }
+      }
+    },
+
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user",
+        "description": "Get user by id",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User id to be passed as a path param",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin":{
+                      "type": "boolean"
+                    },
+                    "created_at":{
+                      "type": "string"
+                    },
+                    "updated_at":{
+                      "type": "string"
+                    }
+                  },
+                  "example":{
+                    "id": "554d6f35-2ebe-49f0-ac68-86f6b998565c",
+                    "name": "User",
+                    "email": "user@email.com",
+                    "admin": false,
+                    "created_at": "2022-09-30T15:32:53.931Z",
+                    "updated_at": "2022-09-30T15:32:53.931Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exist"
+          }
+        }
+      }
+    },
+  
+    "/users/{user_id}/admin": {
+      "patch":{
+        "tags": ["User"],
+        "summary": "Change admin status",
+        "description": "Change admin status",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User id to be passed as a path param",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin":{
+                      "type": "boolean"
+                    },
+                    "created_at":{
+                      "type": "string"
+                    },
+                    "updated_at":{
+                      "type": "string"
+                    }
+                  },
+                  "example":{
+                    "id": "554d6f35-2ebe-49f0-ac68-86f6b998565c",
+                    "name": "User",
+                    "email": "user@email.com",
+                    "admin": false,
+                    "created_at": "2022-09-30T15:32:53.931Z",
+                    "updated_at": "2022-09-30T15:32:53.931Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exist"
+          }
+        }
+      }
+    }
+  }
+
+}
